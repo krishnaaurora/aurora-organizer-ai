@@ -4,13 +4,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MoreHorizontal, Search, Copy, Pencil, Trash2, Eye } from "lucide-react";
+import { MoreHorizontal, Search, Copy, Pencil, Trash2, Eye, Upload, ImageIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 type EventStatus = "draft" | "pending" | "approved" | "rejected" | "completed";
 
@@ -44,6 +51,8 @@ const statusColors: Record<EventStatus, string> = {
 export default function MyEvents() {
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("all");
+  const [publishDialog, setPublishDialog] = useState<number | null>(null);
+  const [posterFile, setPosterFile] = useState<string>("");
 
   const filtered = events.filter((e) => {
     const matchesSearch = e.title.toLowerCase().includes(search.toLowerCase());
@@ -119,6 +128,11 @@ export default function MyEvents() {
                             <DropdownMenuItem><Eye className="h-4 w-4 mr-2" /> View</DropdownMenuItem>
                             <DropdownMenuItem><Pencil className="h-4 w-4 mr-2" /> Edit</DropdownMenuItem>
                             <DropdownMenuItem><Copy className="h-4 w-4 mr-2" /> Duplicate</DropdownMenuItem>
+                            {event.status === "approved" && (
+                              <DropdownMenuItem onClick={() => setPublishDialog(event.id)}>
+                                <ImageIcon className="h-4 w-4 mr-2" /> Publish with Poster
+                              </DropdownMenuItem>
+                            )}
                             <DropdownMenuItem className="text-destructive"><Trash2 className="h-4 w-4 mr-2" /> Delete</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -138,6 +152,40 @@ export default function MyEvents() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Publish with Poster Dialog */}
+      <Dialog open={publishDialog !== null} onOpenChange={() => setPublishDialog(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Publish Event with Poster</DialogTitle>
+            <DialogDescription>
+              Upload a poster image to publish this approved event to the student dashboard.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center space-y-3">
+              <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">Drag & drop poster or click to browse</p>
+              <Input
+                type="file"
+                accept="image/*"
+                className="max-w-[240px] mx-auto"
+                onChange={(e) => setPosterFile(e.target.files?.[0]?.name || "")}
+              />
+              {posterFile && (
+                <p className="text-xs text-success">Selected: {posterFile}</p>
+              )}
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setPublishDialog(null)}>Cancel</Button>
+              <Button disabled={!posterFile} onClick={() => { setPublishDialog(null); setPosterFile(""); }}>
+                <ImageIcon className="h-4 w-4 mr-1" />
+                Publish Event
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }
