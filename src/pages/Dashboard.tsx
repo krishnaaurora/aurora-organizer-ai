@@ -4,9 +4,6 @@ import {
   Clock,
   Users,
   FileCheck,
-  UserPlus,
-  CheckCircle2,
-  Bell,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -26,13 +23,6 @@ const stats = [
   { label: "Upcoming Events", value: "8", icon: FileCheck, change: "Next: Tomorrow" },
 ];
 
-const activities = [
-  { icon: UserPlus, text: "Arjun Mehta registered for Tech Summit 2025", time: "2 min ago", type: "register" as const },
-  { icon: CheckCircle2, text: "Annual Hackathon approved by HOD", time: "1 hour ago", type: "approve" as const },
-  { icon: Bell, text: "Reminder sent for Workshop on AI/ML", time: "3 hours ago", type: "notify" as const },
-  { icon: UserPlus, text: "Priya Sharma registered for Cultural Fest", time: "5 hours ago", type: "register" as const },
-  { icon: CheckCircle2, text: "Guest Lecture Series approved", time: "Yesterday", type: "approve" as const },
-];
 
 const chartData = [
   { month: "Aug", participants: 120 },
@@ -76,33 +66,7 @@ export default function Dashboard() {
           ))}
         </div>
 
-        <div className="grid grid-cols-3 gap-6">
-          {/* Activity Feed */}
-          <div className="col-span-1 space-y-4">
-            <h2 className="text-sm font-medium">Recent Activity</h2>
-            <div className="space-y-1">
-              {activities.map((a, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/50 transition-colors"
-                >
-                  <a.icon
-                    className={`h-4 w-4 mt-0.5 shrink-0 ${
-                      a.type === "approve"
-                        ? "text-success"
-                        : a.type === "register"
-                        ? "text-primary"
-                        : "text-warning"
-                    }`}
-                  />
-                  <div className="min-w-0">
-                    <p className="text-sm leading-snug">{a.text}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{a.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="grid grid-cols-2 gap-6">
 
           {/* Chart */}
           <div className="col-span-1 space-y-4">

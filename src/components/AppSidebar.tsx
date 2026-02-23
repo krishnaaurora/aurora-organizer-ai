@@ -6,7 +6,7 @@ import {
   Calendar,
   Users,
   BarChart3,
-  Bell,
+  
   ShieldCheck,
   Settings,
   ChevronLeft,
@@ -21,7 +21,7 @@ const navItems = [
   { label: "My Events", path: "/my-events", icon: Calendar },
   { label: "Participants", path: "/participants", icon: Users },
   { label: "Analytics", path: "/analytics", icon: BarChart3 },
-  { label: "Notifications", path: "/notifications", icon: Bell },
+  
   { label: "Approval Status", path: "/approval-status", icon: ShieldCheck },
   { label: "Settings", path: "/settings", icon: Settings },
 ];
