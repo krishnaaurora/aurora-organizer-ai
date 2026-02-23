@@ -8,7 +8,7 @@ import CreateEvent from "./pages/CreateEvent";
 import MyEvents from "./pages/MyEvents";
 import Participants from "./pages/Participants";
 import Analytics from "./pages/Analytics";
-import Notifications from "./pages/Notifications";
+
 import ApprovalStatus from "./pages/ApprovalStatus";
 import SettingsPage from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -27,7 +27,7 @@ const App = () => (
           <Route path="/my-events" element={<MyEvents />} />
           <Route path="/participants" element={<Participants />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/notifications" element={<Notifications />} />
+          
           <Route path="/approval-status" element={<ApprovalStatus />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFound />} />
