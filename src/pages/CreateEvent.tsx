@@ -12,7 +12,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import {
   Sparkles,
   FileText,
-  Upload,
+  
   ChevronDown,
   ChevronUp,
   Eye,
@@ -45,7 +45,7 @@ const validationRules = [
   { key: "venue", label: "Venue is required" },
   { key: "startDate", label: "Start date is required" },
   { key: "endDate", label: "End date is required" },
-  { key: "registrationDeadline", label: "Registration deadline is required" },
+  { key: "eventTime", label: "Event time is required" },
   { key: "editorContent", label: "Event description/document content is required" },
 ];
 
@@ -59,7 +59,7 @@ export default function CreateEvent() {
   const [category, setCategory] = useState("");
   const [eventMode, setEventMode] = useState("");
   const [teamNumber, setTeamNumber] = useState("");
-  const [registrationDeadline, setRegistrationDeadline] = useState("");
+  const [eventTime, setEventTime] = useState("");
   const [guestList, setGuestList] = useState("");
   const [isPublicEvent, setIsPublicEvent] = useState(true);
 
@@ -86,7 +86,7 @@ export default function CreateEvent() {
   const [showSubmitOptions, setShowSubmitOptions] = useState(false);
 
   const formValues: Record<string, string> = {
-    title, category, venue, startDate, endDate, registrationDeadline, editorContent,
+    title, category, venue, startDate, endDate, eventTime, editorContent,
   };
 
   const validationResults = validationRules.map((r) => ({
@@ -120,7 +120,7 @@ export default function CreateEvent() {
   const handleGenerateApprovalLetter = () => {
     setAiLoading(true);
     setTimeout(() => {
-      const letter = `To,\nThe Dean / Head of Department\n${club ? club + "\n" : ""}University Campus\n\nSubject: Request for Approval — ${title || "Untitled Event"}\n\nRespected Sir/Madam,\n\nI am writing to formally request approval to organize "${title || "Untitled Event"}"${category ? ` under the ${category} category` : ""}.\n\nEvent Details:\n• Venue: ${venue || "TBD"}\n• Date: ${startDate || "TBD"} to ${endDate || "TBD"}\n• Mode: ${eventMode || "TBD"}\n• Registration Deadline: ${registrationDeadline || "TBD"}\n• Expected Participants: ${teamNumber || "Open"}\n• Scope: ${isPublicEvent ? "Public (All Departments)" : "Department Only"}\n\nWe assure you that all necessary arrangements will be made and the event will be conducted in adherence to university guidelines.\n\nKindly grant your approval at the earliest.\n\nThank you.\n\nYours sincerely,\nEvent Organizer`;
+      const letter = `To,\nThe Dean / Head of Department\n${club ? club + "\n" : ""}University Campus\n\nSubject: Request for Approval — ${title || "Untitled Event"}\n\nRespected Sir/Madam,\n\nI am writing to formally request approval to organize "${title || "Untitled Event"}"${category ? ` under the ${category} category` : ""}.\n\nEvent Details:\n• Venue: ${venue || "TBD"}\n• Date: ${startDate || "TBD"} to ${endDate || "TBD"}\n• Mode: ${eventMode || "TBD"}\n• Time: ${eventTime || "TBD"}\n• Expected Participants: ${teamNumber || "Open"}\n• Scope: ${isPublicEvent ? "Public (All Departments)" : "Department Only"}\n\nWe assure you that all necessary arrangements will be made and the event will be conducted in adherence to university guidelines.\n\nKindly grant your approval at the earliest.\n\nThank you.\n\nYours sincerely,\nEvent Organizer`;
       setApprovalLetterContent(letter);
       setAiLoading(false);
     }, 1500);
@@ -183,7 +183,7 @@ export default function CreateEvent() {
             </SelectContent>
           </Select>
           <Input type="number" placeholder="Team Size (optional)" value={teamNumber} onChange={(e) => setTeamNumber(e.target.value)} className="bg-card" />
-          <Input type="date" placeholder="Reg. Deadline" value={registrationDeadline} onChange={(e) => setRegistrationDeadline(e.target.value)} className="bg-card" />
+          <Input type="time" placeholder="Event Time *" value={eventTime} onChange={(e) => setEventTime(e.target.value)} className="bg-card" />
           <div className="flex items-center gap-2 bg-card border border-border rounded-md px-3">
             <Switch checked={isPublicEvent} onCheckedChange={setIsPublicEvent} id="public-toggle" />
             <Label htmlFor="public-toggle" className="text-xs cursor-pointer">
@@ -360,14 +360,8 @@ export default function CreateEvent() {
                           </span>
                         )}
                       </Button>
-                      <Button
-                        variant="outline"
-                        onClick={handleGenerateApprovalLetter}
-                        disabled={aiLoading}
-                      >
-                        <FileText className="h-4 w-4 mr-1" />
-                        Approval Letter
-                      </Button>
+
+
                     </div>
                   </div>
                 </div>
@@ -399,10 +393,6 @@ export default function CreateEvent() {
         {/* ── Footer ── */}
         <div className="flex items-center justify-between pt-2">
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Poster
-            </Button>
             <Button variant="outline" size="sm" onClick={() => setShowValidation(!showValidation)}>
               <FileCheck className="h-4 w-4 mr-2" />
               Validate
