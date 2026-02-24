@@ -102,4 +102,32 @@
   .section-label {
     @apply text-xs font-medium uppercase tracking-wider text-muted-foreground;
   }
-}
+  }
+
+  /* TipTap Table Styles */
+  .ProseMirror table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+  .ProseMirror th,
+  .ProseMirror td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    font-size: 0.875rem;
+  }
+
+  .ProseMirror th {
+    background: hsl(var(--accent));
+    font-weight: 600;
+  }
+
+  .ProseMirror td {
+    background: transparent;
+  }
+
+  .ProseMirror .selectedCell {
+    background: hsl(var(--primary) / 0.15);
+  }
