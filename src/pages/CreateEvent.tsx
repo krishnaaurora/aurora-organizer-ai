@@ -27,6 +27,8 @@ import {
   Clock,
   RotateCcw,
   Send,
+  PanelRightClose,
+  PanelRightOpen,
 } from "lucide-react";
 
 // ── Types ──
@@ -196,10 +198,10 @@ export default function CreateEvent() {
         <Input placeholder="Guest List — comma separated (optional)" value={guestList} onChange={(e) => setGuestList(e.target.value)} className="bg-card" />
 
         {/* ── Three Column Layout ── */}
-        <div className="grid grid-cols-12 gap-4 min-h-[560px]">
+        <div className="flex gap-4 min-h-[560px]">
 
           {/* LEFT – Dual Preview */}
-          <div className="col-span-3 border border-border rounded-lg p-5 bg-card overflow-auto flex flex-col">
+          <div className="w-[280px] shrink-0 border border-border rounded-lg p-5 bg-card overflow-auto flex flex-col">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Eye className="h-4 w-4 text-muted-foreground" />
@@ -252,15 +254,26 @@ export default function CreateEvent() {
             )}
           </div>
 
-          {/* CENTER – Editor + Documents */}
-          <div className="col-span-5 flex flex-col gap-4">
+          {/* CENTER – Editor + Documents (expands when AI collapsed) */}
+          <div className="flex-1 flex flex-col gap-4 min-w-0">
             {/* Editor */}
             <div className="border border-border rounded-lg bg-card flex flex-col flex-1">
               <div className="flex items-center justify-between px-5 py-3 border-b border-border">
                 <span className="section-label">Document Editor</span>
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="autosave-toggle" className="text-xs text-muted-foreground cursor-pointer">Auto Save</Label>
-                  <Switch checked={autoSave} onCheckedChange={setAutoSave} id="autosave-toggle" />
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="autosave-toggle" className="text-xs text-muted-foreground cursor-pointer">Auto Save</Label>
+                    <Switch checked={autoSave} onCheckedChange={setAutoSave} id="autosave-toggle" />
+                  </div>
+                  {/* AI Panel toggle button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setAiOpen(!aiOpen)}
+                    className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+                  >
+                    {aiOpen ? <PanelRightClose className="h-4 w-4" /> : <PanelRightOpen className="h-4 w-4" />}
+                  </Button>
                 </div>
               </div>
               <TipTapEditor
@@ -302,17 +315,28 @@ export default function CreateEvent() {
             </Collapsible>
           </div>
 
-          {/* RIGHT – AI Panel */}
-          <div className="col-span-4 border border-border rounded-lg bg-card flex flex-col">
-            <Collapsible open={aiOpen} onOpenChange={setAiOpen} className="flex flex-col flex-1">
-              <CollapsibleTrigger className="flex items-center justify-between px-5 py-3 border-b border-border">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-primary" />
-                  <span className="section-label">AI Assistant</span>
+          {/* RIGHT – AI Panel (collapsible slide) */}
+          <div
+            className={`shrink-0 border border-border rounded-lg bg-card flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${
+              aiOpen ? "w-[340px] opacity-100" : "w-0 border-0 p-0"
+            }`}
+          >
+            {aiOpen && (
+              <>
+                <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                    <span className="section-label">AI Assistant</span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setAiOpen(false)}
+                    className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+                  >
+                    <PanelRightClose className="h-4 w-4" />
+                  </Button>
                 </div>
-                {aiOpen ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
-              </CollapsibleTrigger>
-              <CollapsibleContent className="flex-1 flex flex-col">
                 <div className="flex-1 p-5 flex flex-col">
                   <div className="flex-1 space-y-3">
                     <p className="text-sm text-muted-foreground">Quick prompts:</p>
@@ -353,32 +377,30 @@ export default function CreateEvent() {
                           </span>
                         )}
                       </Button>
-
-
                     </div>
                   </div>
                 </div>
-              </CollapsibleContent>
-            </Collapsible>
 
-            {/* Smart Validation Panel */}
-            {showValidation && (
-              <div className="border-t border-border p-4 space-y-2">
-                <div className="flex items-center gap-2 mb-2">
-                  <AlertTriangle className="h-4 w-4 text-warning" />
-                  <span className="section-label">Validation</span>
-                </div>
-                {validationResults.map((v) => (
-                  <div key={v.key} className="flex items-center gap-2 text-xs">
-                    {v.pass ? (
-                      <CheckCircle2 className="h-3 w-3 text-success" />
-                    ) : (
-                      <AlertTriangle className="h-3 w-3 text-destructive" />
-                    )}
-                    <span className={v.pass ? "text-muted-foreground" : "text-destructive"}>{v.label}</span>
+                {/* Smart Validation Panel */}
+                {showValidation && (
+                  <div className="border-t border-border p-4 space-y-2">
+                    <div className="flex items-center gap-2 mb-2">
+                      <AlertTriangle className="h-4 w-4 text-warning" />
+                      <span className="section-label">Validation</span>
+                    </div>
+                    {validationResults.map((v) => (
+                      <div key={v.key} className="flex items-center gap-2 text-xs">
+                        {v.pass ? (
+                          <CheckCircle2 className="h-3 w-3 text-success" />
+                        ) : (
+                          <AlertTriangle className="h-3 w-3 text-destructive" />
+                        )}
+                        <span className={v.pass ? "text-muted-foreground" : "text-destructive"}>{v.label}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
         </div>
