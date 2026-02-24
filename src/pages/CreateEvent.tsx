@@ -66,6 +66,7 @@ export default function CreateEvent() {
   // ── Editor ──
   const [editorContent, setEditorContent] = useState("");
   const [approvalLetterContent, setApprovalLetterContent] = useState("");
+  const [autoSave, setAutoSave] = useState(true);
 
   // ── AI ──
   const [aiPrompt, setAiPrompt] = useState("");
@@ -262,11 +263,9 @@ export default function CreateEvent() {
             <div className="border border-border rounded-lg bg-card flex flex-col flex-1">
               <div className="flex items-center justify-between px-5 py-3 border-b border-border">
                 <span className="section-label">Document Editor</span>
-                <div className="flex gap-2">
-                  <Button variant="ghost" size="sm" onClick={() => saveVersion("Draft")}>
-                    <FileCheck className="h-3 w-3 mr-1" />
-                    Save Draft
-                  </Button>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="autosave-toggle" className="text-xs text-muted-foreground cursor-pointer">Auto Save</Label>
+                  <Switch checked={autoSave} onCheckedChange={setAutoSave} id="autosave-toggle" />
                 </div>
               </div>
               <Textarea
