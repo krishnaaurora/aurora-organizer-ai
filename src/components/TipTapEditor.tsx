@@ -2,6 +2,10 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -19,6 +23,9 @@ import {
   Minus,
   Undo,
   Redo,
+  Table as TableIcon,
+  Plus,
+  Trash2,
 } from "lucide-react";
 
 interface TipTapEditorProps {
@@ -32,6 +39,10 @@ export function TipTapEditor({ content, onUpdate, placeholder }: TipTapEditorPro
     extensions: [
       StarterKit,
       Underline,
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableCell,
+      TableHeader,
       Placeholder.configure({
         placeholder: placeholder || "Start writing...",
       }),
@@ -120,6 +131,25 @@ export function TipTapEditor({ content, onUpdate, placeholder }: TipTapEditorPro
         <ToolbarButton onClick={() => editor.chain().focus().setHorizontalRule().run()}>
           <Minus className="h-3.5 w-3.5" />
         </ToolbarButton>
+
+        <Separator orientation="vertical" className="h-4 mx-1" />
+
+        <ToolbarButton onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>
+          <TableIcon className="h-3.5 w-3.5" />
+        </ToolbarButton>
+        {editor.isActive("table") && (
+          <>
+            <ToolbarButton onClick={() => editor.chain().focus().addColumnAfter().run()}>
+              <Plus className="h-3.5 w-3.5" />
+            </ToolbarButton>
+            <ToolbarButton onClick={() => editor.chain().focus().addRowAfter().run()}>
+              <Plus className="h-3.5 w-3.5 rotate-90" />
+            </ToolbarButton>
+            <ToolbarButton onClick={() => editor.chain().focus().deleteTable().run()}>
+              <Trash2 className="h-3.5 w-3.5" />
+            </ToolbarButton>
+          </>
+        )}
 
         <Separator orientation="vertical" className="h-4 mx-1" />
 
