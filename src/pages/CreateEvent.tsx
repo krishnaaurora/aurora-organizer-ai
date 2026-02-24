@@ -3,6 +3,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { TipTapEditor } from "@/components/TipTapEditor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -112,8 +113,8 @@ export default function CreateEvent() {
   const handleGenerate = () => {
     setAiLoading(true);
     setTimeout(() => {
-      const generated = `Dear Students and Faculty,\n\nWe are pleased to announce "${title || "Untitled Event"}" organized by ${club || "the organizing committee"}.\n\nThis event will be held at ${venue || "the campus venue"} from ${startDate || "TBD"} to ${endDate || "TBD"}.\n\nWe cordially invite all interested participants to register and join us for what promises to be an enriching experience.\n\nPlease find the detailed schedule and registration information below.\n\nWarm regards,\nThe Organizing Committee`;
-      setEditorContent((prev) => (prev ? prev + "\n\n" + generated : generated));
+      const generated = `<p>Dear Students and Faculty,</p><p>We are pleased to announce <strong>"${title || "Untitled Event"}"</strong> organized by ${club || "the organizing committee"}.</p><p>This event will be held at <strong>${venue || "the campus venue"}</strong> from ${startDate || "TBD"} to ${endDate || "TBD"}.</p><p>We cordially invite all interested participants to register and join us for what promises to be an enriching experience.</p><p>Please find the detailed schedule and registration information below.</p><p><em>Warm regards,<br>The Organizing Committee</em></p>`;
+      setEditorContent((prev) => (prev && prev !== "<p></p>" ? prev + generated : generated));
       setAiLoading(false);
     }, 1500);
   };
@@ -234,13 +235,7 @@ export default function CreateEvent() {
                   {eventMode && <span>🔗 {eventMode}</span>}
                 </div>
                 <Separator />
-                <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                  {editorContent || (
-                    <span className="text-muted-foreground italic">
-                      Start writing to see preview...
-                    </span>
-                  )}
-                </div>
+                <div className="text-sm leading-relaxed prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: editorContent || '<span class="text-muted-foreground italic">Start writing to see preview...</span>' }} />
               </div>
             ) : (
               <div className="space-y-3 flex-1">
@@ -268,11 +263,10 @@ export default function CreateEvent() {
                   <Switch checked={autoSave} onCheckedChange={setAutoSave} id="autosave-toggle" />
                 </div>
               </div>
-              <Textarea
-                value={editorContent}
-                onChange={(e) => setEditorContent(e.target.value)}
+              <TipTapEditor
+                content={editorContent}
+                onUpdate={setEditorContent}
                 placeholder="Start writing your event description, notice, or invitation here..."
-                className="flex-1 border-0 rounded-none bg-transparent resize-none p-5 text-sm leading-relaxed focus-visible:ring-0"
               />
             </div>
 
