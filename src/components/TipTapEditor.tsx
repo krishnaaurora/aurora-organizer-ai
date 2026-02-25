@@ -54,7 +54,7 @@ export function TipTapEditor({ content, onUpdate, placeholder }: TipTapEditorPro
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm prose-invert max-w-none p-5 min-h-[300px] focus:outline-none text-foreground [&_p.is-editor-empty:first-child::before]:text-muted-foreground [&_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_p.is-editor-empty:first-child::before]:float-left [&_p.is-editor-empty:first-child::before]:h-0 [&_p.is-editor-empty:first-child::before]:pointer-events-none",
+          "prose prose-sm max-w-none p-5 min-h-[300px] focus:outline-none text-foreground [&_p.is-editor-empty:first-child::before]:text-muted-foreground [&_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_p.is-editor-empty:first-child::before]:float-left [&_p.is-editor-empty:first-child::before]:h-0 [&_p.is-editor-empty:first-child::before]:pointer-events-none",
       },
     },
   });

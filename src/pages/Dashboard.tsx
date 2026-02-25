@@ -76,19 +76,20 @@ export default function Dashboard() {
                 <AreaChart data={chartData}>
                   <defs>
                     <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0.2} />
+                      <stop offset="0%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0.15} />
                       <stop offset="100%" stopColor="hsl(217, 91%, 60%)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(0,0%,14%)" />
-                  <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(0,0%,55%)" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fill: "hsl(0,0%,55%)" }} axisLine={false} tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(220,13%,90%)" />
+                  <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(220,10%,46%)" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fill: "hsl(220,10%,46%)" }} axisLine={false} tickLine={false} />
                   <Tooltip
                     contentStyle={{
-                      background: "hsl(0,0%,7%)",
-                      border: "1px solid hsl(0,0%,14%)",
-                      borderRadius: 8,
+                      background: "hsl(0,0%,100%)",
+                      border: "1px solid hsl(220,13%,90%)",
+                      borderRadius: 10,
                       fontSize: 12,
+                      boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
                     }}
                   />
                   <Area
