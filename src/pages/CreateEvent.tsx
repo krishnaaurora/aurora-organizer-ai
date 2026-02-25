@@ -198,7 +198,7 @@ export default function CreateEvent() {
         <Input placeholder="Guest List — comma separated (optional)" value={guestList} onChange={(e) => setGuestList(e.target.value)} className="bg-card" />
 
         {/* ── Three Column Layout ── */}
-        <div className="flex gap-4 min-h-[560px]">
+        <div className="flex gap-4 min-h-[560px] overflow-x-auto">
 
           {/* LEFT – Dual Preview */}
           <div className="w-[280px] shrink-0 border border-border rounded-lg p-5 bg-card overflow-auto flex flex-col">
