@@ -237,7 +237,7 @@ export default function CreateEvent() {
                   {eventMode && <span>🔗 {eventMode}</span>}
                 </div>
                 <Separator />
-                <div className="text-sm leading-relaxed prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: editorContent || '<span class="text-muted-foreground italic">Start writing to see preview...</span>' }} />
+                <div className="text-sm leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: editorContent || '<span class="text-muted-foreground italic">Start writing to see preview...</span>' }} />
               </div>
             ) : (
               <div className="space-y-3 flex-1">
@@ -260,20 +260,9 @@ export default function CreateEvent() {
             <div className="border border-border rounded-lg bg-card flex flex-col flex-1">
               <div className="flex items-center justify-between px-5 py-3 border-b border-border">
                 <span className="section-label">Document Editor</span>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <Label htmlFor="autosave-toggle" className="text-xs text-muted-foreground cursor-pointer">Auto Save</Label>
-                    <Switch checked={autoSave} onCheckedChange={setAutoSave} id="autosave-toggle" />
-                  </div>
-                  {/* AI Panel toggle button */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setAiOpen(!aiOpen)}
-                    className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
-                  >
-                    {aiOpen ? <PanelRightClose className="h-4 w-4" /> : <PanelRightOpen className="h-4 w-4" />}
-                  </Button>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="autosave-toggle" className="text-xs text-muted-foreground cursor-pointer">Auto Save</Label>
+                  <Switch checked={autoSave} onCheckedChange={setAutoSave} id="autosave-toggle" />
                 </div>
               </div>
               <TipTapEditor
@@ -316,27 +305,38 @@ export default function CreateEvent() {
           </div>
 
           {/* RIGHT – AI Panel (collapsible slide) */}
-          <div
-            className={`shrink-0 border border-border rounded-lg bg-card flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${
-              aiOpen ? "w-[340px] opacity-100" : "w-0 border-0 p-0"
-            }`}
-          >
-            {aiOpen && (
-              <>
-                <div className="flex items-center justify-between px-5 py-3 border-b border-border">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                    <span className="section-label">AI Assistant</span>
+          <div className="shrink-0 flex transition-all duration-300 ease-in-out">
+            {/* Always-visible toggle strip */}
+            {!aiOpen && (
+              <button
+                onClick={() => setAiOpen(true)}
+                className="flex flex-col items-center justify-center w-10 rounded-lg border border-border bg-card hover:bg-accent transition-colors gap-2 py-4"
+              >
+                <PanelRightOpen className="h-4 w-4 text-muted-foreground" />
+                <span className="text-[10px] text-muted-foreground [writing-mode:vertical-rl] rotate-180 tracking-wider font-medium uppercase">AI Assistant</span>
+              </button>
+            )}
+            <div
+              className={`flex flex-col overflow-hidden transition-all duration-300 ease-in-out ${
+                aiOpen ? "w-[340px] opacity-100 border border-border rounded-lg bg-card" : "w-0 opacity-0"
+              }`}
+            >
+              {aiOpen && (
+                <>
+                  <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      <span className="section-label">AI Assistant</span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setAiOpen(false)}
+                      className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+                    >
+                      <PanelRightClose className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setAiOpen(false)}
-                    className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
-                  >
-                    <PanelRightClose className="h-4 w-4" />
-                  </Button>
-                </div>
                 <div className="flex-1 p-5 flex flex-col">
                   <div className="flex-1 space-y-3">
                     <p className="text-sm text-muted-foreground">Quick prompts:</p>
@@ -401,7 +401,8 @@ export default function CreateEvent() {
                   </div>
                 )}
               </>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
