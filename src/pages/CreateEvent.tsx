@@ -160,7 +160,7 @@ export default function CreateEvent() {
         </div>
 
         {/* ── Top Info Bar ── */}
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <Input placeholder="Event Title *" value={title} onChange={(e) => setTitle(e.target.value)} className="bg-card" />
           <Input placeholder="Club Name (optional)" value={club} onChange={(e) => setClub(e.target.value)} className="bg-card" />
           <Select value={category} onValueChange={setCategory}>
@@ -175,7 +175,7 @@ export default function CreateEvent() {
           </Select>
           <Input placeholder="Venue *" value={venue} onChange={(e) => setVenue(e.target.value)} className="bg-card" />
         </div>
-        <div className="grid grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           <Input type="date" placeholder="Start Date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="bg-card" />
           <Input type="date" placeholder="End Date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="bg-card" />
           <Select value={eventMode} onValueChange={setEventMode}>
@@ -198,10 +198,10 @@ export default function CreateEvent() {
         <Input placeholder="Guest List — comma separated (optional)" value={guestList} onChange={(e) => setGuestList(e.target.value)} className="bg-card" />
 
         {/* ── Three Column Layout ── */}
-        <div className="flex gap-4 min-h-[560px] overflow-x-auto">
+        <div className="flex flex-col lg:flex-row gap-4 lg:min-h-[560px]">
 
           {/* LEFT – Dual Preview */}
-          <div className="w-[280px] shrink-0 border border-border rounded-lg p-5 bg-card overflow-auto flex flex-col">
+          <div className="w-full lg:w-[280px] lg:shrink-0 border border-border rounded-lg p-5 bg-card overflow-auto flex flex-col">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Eye className="h-4 w-4 text-muted-foreground" />
